@@ -83,7 +83,7 @@ else
     git apply /home/ranger/patches/${patch}
   done
 fi
-
+echo "${ARG_PROFILES} -----docker --build-------${ARG_SKIPTESTS}"
 mvn ${ARG_PROFILES} ${ARG_SKIPTESTS} -DskipDocs clean package
 
 mv -f target/version /home/ranger/dist/

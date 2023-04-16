@@ -80,6 +80,7 @@ cd ${RD_HOME}
 
 ALL_SERVICES="${CORE_SERVICES} ${ENABLED_RANGER_SERVICES}"
 
+echo "all service names ${ALL_SERVICES}"
 for service in `echo ${ALL_SERVICES} | sed -e 's:,: :g'`
 do
     echo "${service}" | grep '^ranger' > /dev/null 2>&1
@@ -161,20 +162,21 @@ then
         noOfFiles=`ls -l ${RD_HOME}/dist/*.tar.gz 2> /dev/null| wc -l | awk '{ print $1 }'`
         if [ ${noOfFiles} -lt 20 ]
         then
-            #echo "Found only [${noOfFiles}] RANGER tar files. Enabling RANGER BUILD."
+            echo "Found only [${noOfFiles}] RANGER tar files. Enabling RANGER BUILD."
             build_ranger=1
             build_base_image=1
-        #else
-            #echo "Found [${noOfFiles}] RANGER tar files. Skipping RANGER BUILD. To Force RANGER BUILD, please set RANGER_REBUILD=1 before running this script."
+        else
+            echo "Found [${noOfFiles}] RANGER tar files. Skipping RANGER BUILD. To Force RANGER BUILD, please set RANGER_REBUILD=1 before running this script."
         fi
     else
-        #echo "Found [RANGER_REBUILD as ${RANGER_REBUILD}]. Enabling RANGER BUILD."
+        echo "Found [RANGER_REBUILD as ${RANGER_REBUILD}]. Enabling RANGER BUILD."
         build_base_image=1
         build_ranger=1
     fi
 
 
     cd ${RD_HOME}
+    echo "build base image ${build_base_image}"
 
     if [ ${build_base_image} -eq 0 ]
     then
@@ -217,11 +219,13 @@ then
             fi
             cp target/ranger-* ${RD_HOME}/dist
             cp target/version ${RD_HOME}/dist
+            echo "targets coppied to dist **"
         fi
 
     fi
 fi
 
+echo ${RD_HOME}
 
 cd ${RD_HOME}
 
